@@ -24,7 +24,7 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 - `main()`: Main function that runs the entire sentiment analysis workflow.
 
 # Example 
-![Figure 1] ![image](https://github.com/user-attachments/assets/a608217b-48da-454f-95df-7f011dc17e19)
+![image1](https://github.com/user-attachments/assets/a608217b-48da-454f-95df-7f011dc17e19)
 
-![Figure 2] ![image](https://github.com/user-attachments/assets/d83fab3a-a88e-4d1c-886e-63788fffb6d9)
+![image2](https://github.com/user-attachments/assets/d83fab3a-a88e-4d1c-886e-63788fffb6d9)
 
