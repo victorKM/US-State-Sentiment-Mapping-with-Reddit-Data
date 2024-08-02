@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/96d181a4-06c8-4604-b9fb-977d1424568a)# Sentiment Analysis of Reddit Posts by US State
+# Sentiment Analysis of Reddit Posts by US State
 
 This project performs sentiment analysis on Reddit posts related to US states and visualizes the results on an interactive map. We use the Reddit API to collect posts and comments, and the VADER library for sentiment analysis.
 
