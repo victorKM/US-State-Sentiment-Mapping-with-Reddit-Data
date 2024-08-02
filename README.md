@@ -4,7 +4,7 @@ This project performs sentiment analysis on Reddit posts related to US states an
 
 # Objective
 
-The goal of this project is to evaluate the sentiment of people towards each US state based on Reddit posts and comments. The results are displayed on a map of the US, where each state is colored according to the average sentiment expressed in the posts and comments.
+The goal of this project is to evaluate the sentiment of people towards each US state based on Reddit posts and comments. The results are displayed on a map of the US, where each state is colored according to the average sentiment expressed in the posts and comments. States that are more blue are perceived more positively, while states that are more red are perceived more negatively.
 
 # Features
 
