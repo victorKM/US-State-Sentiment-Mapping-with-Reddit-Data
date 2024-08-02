@@ -5,7 +5,7 @@ import plotly.express as px
 from concurrent.futures import ThreadPoolExecutor
 
 states_info = {
-    "Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE",
+    "Alabama Trump": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE",
     "Florida": "FL", "Georgia": "GA", "Hawaii": "HI", "Idaho": "ID", "Illinois": "IL","Indiana": "IN","Iowa": "IA","Kansas": "KS","Kentucky": "KY",
     "Louisiana": "LA","Maine": "ME","Maryland": "MD","Massachusetts": "MA","Michigan": "MI","Minnesota": "MN","Mississippi": "MS","Missouri": "MO",
     "Montana": "MT","Nebraska": "NE","Nevada": "NV","New Hampshire": "NH","New Jersey": "NJ","New Mexico": "NM","New York": "NY","North Carolina": "NC",
@@ -16,8 +16,8 @@ states_info = {
 # Set up and return the Reddit API client
 def initialize_reddit():
     return praw.Reddit(
-        client_id='pS9ynIbJmJCc3eDNudBu-Q',
-        client_secret='uaNYaSdYl5qOjkdxgq5Ysm7KLoT3VQ',
+        client_id='CLIENT_ID',
+        client_secret='CLIENT_SECRET',
         user_agent='mmm'
     )
 
@@ -49,11 +49,11 @@ def process_post(post, analyzer):
     return sum_sentiments, sum_posts_comments
 
 # Collect and analyze the sentiment of posts for a state
-def analyze_state_sentiments(reddit, analyzer, states):
+def analyze_state_sentiments(reddit, analyzer, states, time):
     def analyze_state(state):
         sum_total_sentiments = 0
         sum_posts_comments = 0
-        posts = reddit.subreddit('all').search(state, sort='relevance', time_filter='year', limit=10)
+        posts = reddit.subreddit('all').search(state, sort='relevance', time_filter={time}, limit=10)
         
         with ThreadPoolExecutor() as executor:
             futures = [executor.submit(process_post, post, analyzer) for post in posts]
@@ -87,11 +87,23 @@ def plot_map(df):
                         locationmode="USA-states", 
                         color="sentiment", 
                         scope="usa", 
-                        color_continuous_scale='RdBu',  # Usando a escala vermelho-verde
-                        title='Sentimentos por Estado nos EUA',
+                        color_continuous_scale='RdBu',  
+                        title='Sentiments by US State',
                         hover_name="state_name",
                         hover_data={"state_name": False, "sentiment": True, "state_code": False})
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    return fig
+
+# Function showing a bars graphics of distribuition of the sentiment by state
+def plot_sentiment_distribution(df):
+    fig = px.bar(df,
+                 x="state_name",
+                 y="sentiment",
+                 color="sentiment",
+                 color_continuous_scale='RdBu',
+                 title="Sentiment distribuition by US State",
+                 labels={"state_name": "Estado", "sentiment": "Sentimento Médio"})
+    fig.update_layout(xaxis_title="Estado", yaxis_title="Sentimento Médio")
     return fig
 
 # Main function to execute the sentiment analysis workflow
@@ -104,14 +116,20 @@ def main():
     states = load_states()
 
     # Analyze the sentiments of the states
-    sentiment_result = analyze_state_sentiments(reddit, analyzer, states["name"])
+    sentiment_result = analyze_state_sentiments(reddit, analyzer, states["name"], time='year')
 
     # Create and show the DataFrame
     df = create_dataframe(states, sentiment_result)
 
-     # Create and show the map of the United States
-    fig = plot_map(df)
+    # Create and show a bars graph of sentiments by state
+    fig = plot_sentiment_distribution(df)
     fig.show()
+
+    # Create and show the map of the United States
+    # fig1 = plot_map(df)
+    # fig1.show()
+
+
 
 if __name__ == '__main__':
     main()
