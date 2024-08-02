@@ -10,7 +10,7 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 
 1. **Data Collection**: Uses the Reddit API (praw) to collect posts and comments.
 2. **Sentiment Analysis**: Applies sentiment analysis using the vaderSentiment library.
-3. **Visualization**: Creates an interactive map of the United States using plotly to visualize the sentiment analysis results.
+3. **Visualization**: Creates an interactive map of the United States and bars graph using plotly to visualize the sentiment analysis results.
 
 # Code Structure
 
@@ -21,6 +21,7 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 - `analyze_state_sentiments(reddit, analyzer, states)`: Collects and analyzes the sentiment of posts for each state.
 - `create_dataframe(states, sentiment_result)`: Creates a DataFrame with states and their average sentiments.
 - `plot_map(df)`: Creates and returns an interactive map of the United States with sentiment by state.
+- `plot_sentiment_distribution(df)`: Creates and returns an graph bar of sentiment distribution by state.
 - `main()`: Main function that runs the entire sentiment analysis workflow.
 
 # Example
@@ -28,3 +29,6 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 ![image1](https://github.com/user-attachments/assets/a608217b-48da-454f-95df-7f011dc17e19)
 
 ![image2](https://github.com/user-attachments/assets/d83fab3a-a88e-4d1c-886e-63788fffb6d9)
+
+![image](https://github.com/user-attachments/assets/3616324b-6406-4ddb-a6f8-3a5252ba33b3)
+
