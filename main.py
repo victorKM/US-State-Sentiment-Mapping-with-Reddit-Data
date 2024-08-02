@@ -13,7 +13,7 @@ states_info = {
     "Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"
 }
 
-# Configura e retorna o cliente da API do Reddit
+# Set up and return the Reddit API client
 def initialize_reddit():
     return praw.Reddit(
         client_id='pS9ynIbJmJCc3eDNudBu-Q',
@@ -21,11 +21,11 @@ def initialize_reddit():
         user_agent='mmm'
     )
 
-# Inicializa e retorna o analisador de sentimentos 
+# Initialize and return the sentiment analyzer
 def initialize_analyzer():
     return SentimentIntensityAnalyzer()
 
-# Carrega a lista de estados
+# Load the list of states
 def load_states():
     names = []
     codes = []
@@ -34,13 +34,13 @@ def load_states():
         codes.append(code)
     return {"name": names, "code": codes}
 
-# Função auxiliar para processar postagens
+# Helper function to process posts
 def process_post(post, analyzer):
     sum_sentiments = 0
     sum_posts_comments = 0
     comments = post.comments.list()
     
-    for comment in comments[:40]:  # Limite o número de comentários a processar
+    for comment in comments[:40]:  # Limit the number of comments to process
         if isinstance(comment, praw.models.Comment):
             sentiment_comment = analyzer.polarity_scores(comment.body)['compound']
             sum_sentiments += sentiment_comment
@@ -48,7 +48,7 @@ def process_post(post, analyzer):
     
     return sum_sentiments, sum_posts_comments
 
-# Coleta e analisa os sentimentos das postagens de um estado
+# Collect and analyze the sentiment of posts for a state
 def analyze_state_sentiments(reddit, analyzer, states):
     def analyze_state(state):
         sum_total_sentiments = 0
@@ -65,13 +65,13 @@ def analyze_state_sentiments(reddit, analyzer, states):
         average_sentiment = sum_total_sentiments / sum_posts_comments if sum_posts_comments > 0 else 0
         return average_sentiment
     
-    # Analisar todos os estados
+    # Analyze all states
     with ThreadPoolExecutor() as executor:
         results = list(executor.map(analyze_state, states))
     
     return results
 
-# Cria e retorna um DataFrame com os estados e seus sentimentos medios
+# Create and return a DataFrame with states and their average sentiments
 def create_dataframe(states, sentiment_result):
     data = {
         'state_name': states["name"],
@@ -80,7 +80,7 @@ def create_dataframe(states, sentiment_result):
     }
     return pd.DataFrame(data=data)
 
-# Funcao para montar e mostrar o mapa
+# Function to build and show the map
 def plot_map(df):
     fig = px.choropleth(df,
                         locations="state_code", 
@@ -94,22 +94,22 @@ def plot_map(df):
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     return fig
 
-# Funcao principal para executar o fluxo de analise de sentimentos
+# Main function to execute the sentiment analysis workflow
 def main():
-    # Carrega as instancias necessarias
+    # Load necessary instances
     reddit = initialize_reddit()
     analyzer = initialize_analyzer()
 
-    # Carrega a lista de estados
+    # Load the list of states
     states = load_states()
 
-    # Analisa os sentimentos dos estados
+    # Analyze the sentiments of the states
     sentiment_result = analyze_state_sentiments(reddit, analyzer, states["name"])
 
-    # Cria e mostra o DataFrame
+    # Create and show the DataFrame
     df = create_dataframe(states, sentiment_result)
 
-    # Mostra mapa dos Estados Unidos
+     # Create and show the map of the United States
     fig = plot_map(df)
     fig.show()
 
