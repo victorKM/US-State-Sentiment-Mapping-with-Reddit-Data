@@ -5,7 +5,7 @@ import plotly.express as px
 from concurrent.futures import ThreadPoolExecutor
 
 states_info = {
-    "Alabama Trump": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE",
+    "Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE",
     "Florida": "FL", "Georgia": "GA", "Hawaii": "HI", "Idaho": "ID", "Illinois": "IL","Indiana": "IN","Iowa": "IA","Kansas": "KS","Kentucky": "KY",
     "Louisiana": "LA","Maine": "ME","Maryland": "MD","Massachusetts": "MA","Michigan": "MI","Minnesota": "MN","Mississippi": "MS","Missouri": "MO",
     "Montana": "MT","Nebraska": "NE","Nevada": "NV","New Hampshire": "NH","New Jersey": "NJ","New Mexico": "NM","New York": "NY","North Carolina": "NC",
@@ -53,7 +53,7 @@ def analyze_state_sentiments(reddit, analyzer, states, time):
     def analyze_state(state):
         sum_total_sentiments = 0
         sum_posts_comments = 0
-        posts = reddit.subreddit('all').search(state, sort='relevance', time_filter={time}, limit=10)
+        posts = reddit.subreddit('all').search(state, sort='relevance', time_filter=time, limit=10)
         
         with ThreadPoolExecutor() as executor:
             futures = [executor.submit(process_post, post, analyzer) for post in posts]
@@ -96,14 +96,27 @@ def plot_map(df):
 
 # Function showing a bars graphics of distribuition of the sentiment by state
 def plot_sentiment_distribution(df):
-    fig = px.bar(df,
+
+    # Sort the DataFrame by sentiment in ascending order
+    df_sorted = df.sort_values(by="sentiment", ascending=True)
+    
+    # Create the bar chart
+    fig = px.bar(df_sorted,
                  x="state_name",
                  y="sentiment",
                  color="sentiment",
                  color_continuous_scale='RdBu',
-                 title="Sentiment distribuition by US State",
-                 labels={"state_name": "Estado", "sentiment": "Sentimento Médio"})
-    fig.update_layout(xaxis_title="Estado", yaxis_title="Sentimento Médio")
+                 title="Sentiment Distribution by US State",
+                 labels={"state_name": "State", "sentiment": "Average Sentiment"})
+    
+    # Update layout to change the background color
+    fig.update_layout(
+        xaxis_title="State",
+        yaxis_title="Average Sentiment",
+        plot_bgcolor='gray',  # Cor de fundo do gráfico
+        paper_bgcolor='white'  # Cor de fundo do papel (opcional)
+    )
+
     return fig
 
 # Main function to execute the sentiment analysis workflow
