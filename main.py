@@ -126,10 +126,8 @@ def main():
     fig.show()
 
     # Create and show the map of the United States
-    # fig1 = plot_map(df)
-    # fig1.show()
-
-
+    fig1 = plot_map(df)
+    fig1.show()
 
 if __name__ == '__main__':
     main()
