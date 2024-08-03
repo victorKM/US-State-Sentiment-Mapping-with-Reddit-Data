@@ -8,22 +8,22 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 
 # Features
 
-1. **Data Collection**: Uses the Reddit API (praw) to collect posts and comments.
-2. **Sentiment Analysis**: Applies sentiment analysis using the vaderSentiment library.
-3. **Visualization**: Creates an interactive map of the United States and bars graph using plotly to visualize the sentiment analysis results.
+1. **Data Collection**: Uses the Reddit API (praw) to collect posts and comments
+2. **Sentiment Analysis**: Applies sentiment analysis using the vaderSentiment library
+3. **Visualization**: Creates an interactive map of the United States and bars graph using plotly to visualize the sentiment analysis results
 
 # Code Structure
 
-- `load_states()`: Loads the list of states and their codes.
-- `analyse_post(post)`: Processes a post and its comments, calculating the average sentiment.
-- `analyse_state(state)`: Collect and analyzes the sentiment of the state posts.
-- `analyze_state_sentiments(reddit, analyzer, states)`: Collects and analyzes the sentiment of posts for each state.
-- `create_dataframe(states, sentiment_result)`: Creates a DataFrame with states and their average sentiments.
-- `plot_map(df)`: Creates and returns an interactive map of the United States with sentiment by state.
-- `plot_sentiment_distribution(df)`: Creates and returns an bar graphic of sentiment distribution by state.
-- `plot_posts_sentiments`: Creates and show graph bar graphics of the posts sentiments of a state.
-- `get_input_stae_name(posts_state_data):` Get input value from user to plot the posts sentiments of this state.
-- `__main__()`: Main function that runs the entire sentiment analysis workflow.
+- `load_states()`: Loads the list of states and their codes
+- `analyse_post(post)`: Processes a post and its comments, calculating the average sentiment
+- `analyse_state(state)`: Collect and analyzes the sentiment of the state posts
+- `analyze_state_sentiments(reddit, analyzer, states)`: Collects and analyzes the sentiment of posts for each state
+- `create_dataframe(states, sentiment_result)`: Creates a DataFrame with states and their average sentiments
+- `plot_map(df)`: Creates and returns an interactive map of the United States with sentiment by state
+- `plot_sentiment_distribution(df)`: Creates and returns an bar graphic of sentiment distribution by state
+- `plot_posts_sentiments`: Creates and show graph bar graphics of the posts sentiments of a state
+- `get_input_stae_name(posts_state_data):` Get input value from user to plot the posts sentiments of this state
+- `__main__()`: Main function that runs the entire sentiment analysis workflow
 
 # Example
 
