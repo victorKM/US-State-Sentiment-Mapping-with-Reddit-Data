@@ -4,7 +4,6 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import plotly.express as px
 from concurrent.futures import ThreadPoolExecutor
 import tkinter as tk
-from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 STATES_INFO = {
@@ -16,7 +15,7 @@ STATES_INFO = {
     "Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"
 }
 
-REDDIT = praw.Reddit(client_id='pS9ynIbJmJCc3eDNudBu-Q',client_secret='uaNYaSdYl5qOjkdxgq5Ysm7KLoT3VQ',user_agent='mmm')
+REDDIT = praw.Reddit(client_id='CLIENT_ID',client_secret='CLIENTE_SECRET',user_agent='mmm')
 
 ANALYZER = SentimentIntensityAnalyzer()
 
