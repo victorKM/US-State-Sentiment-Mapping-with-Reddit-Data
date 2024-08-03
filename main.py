@@ -16,7 +16,7 @@ STATES_INFO = {
     "Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"
 }
 
-REDDIT = praw.Reddit(client_id='CLIENT_ID',client_secret='CLIENT_SECRET',user_agent='mmm')
+REDDIT = praw.Reddit(client_id='pS9ynIbJmJCc3eDNudBu-Q',client_secret='uaNYaSdYl5qOjkdxgq5Ysm7KLoT3VQ',user_agent='mmm')
 
 ANALYZER = SentimentIntensityAnalyzer()
 
@@ -63,21 +63,20 @@ def analyze_state(state):
                 sum_posts_comments += post_data['num_comments']
         
         average_sentiment = sum_total_sentiments / sum_posts_comments if sum_posts_comments > 0 else 0
-        post_state_data.append(average_sentiment)
         return average_sentiment, post_state_data, state
 
 # Collect and analyze the sentiment of posts for a state
 def analyze_state_sentiments(states):
     sentiments_result = []
-    results = {}
+    posts_state_data = {}
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(analyze_state, state) for state in states]
         for future in futures:
             average_sentiment, post_state_data, state = future.result()
             sentiments_result.append(average_sentiment)
-            results[state] = post_state_data
+            posts_state_data[state] = post_state_data
     
-    return sentiments_result, results
+    return sentiments_result, posts_state_data
 
 # Create and return a DataFrame with states and their average sentiments
 def create_dataframe(states, sentiment_result):
@@ -127,41 +126,45 @@ def plot_sentiment_distribution(df):
 
     return fig
 
-def plot_posts_sentiments(results, entry):
-    posts = results[entry.get()][:-1]
+def plot_posts_sentiments(posts_state_data, entry):
     
-    data = {
-        "post_title": [post['post_title'] for post in posts],
-        "sentiment": [post['average_sentiments'] for post in posts]
-    }
-    
-    df = pd.DataFrame(data)
+    if entry.get() in posts_state_data:
+        posts = posts_state_data[entry.get()]
+        
+        data = {
+            "post_title": [post['post_title'] for post in posts],
+            "sentiment": [post['average_sentiments'] for post in posts]
+        }
+        
+        df = pd.DataFrame(data)
 
-    df_sorted = df.sort_values(by='sentiment', ascending=True)
-    
-    fig = px.bar(df_sorted,
-                 x="post_title",
-                 y="sentiment",
-                 color="sentiment",
-                 color_continuous_scale='RdBu',
-                 title=f'Sentiments of Posts of {entry.get()}',
-                 labels={"sentiment": "Sentiment Value", "post_title": "Post Title"},
-                 orientation='v')
-    
-    fig.update_layout(
-        margin={"r":0, "t":40, "l":0, "b":0},
-        xaxis_title="Post Title",
-        yaxis_title="Sentiment Value",
-        xaxis_tickfont=dict(size=14),  
-        xaxis_title_font=dict(size=16),  
-        yaxis_title_font=dict(size=16)   
-    )
+        df_sorted = df.sort_values(by='sentiment', ascending=True)
+        
+        fig = px.bar(df_sorted,
+                    x="post_title",
+                    y="sentiment",
+                    color="sentiment",
+                    color_continuous_scale='RdBu',
+                    title=f'Sentiments of Posts of {entry.get()}',
+                    labels={"sentiment": "Sentiment Value", "post_title": "Post Title"},
+                    orientation='v')
+        
+        fig.update_layout(
+            margin={"r":0, "t":40, "l":0, "b":0},
+            xaxis_title="Post Title",
+            yaxis_title="Sentiment Value",
+            xaxis_tickfont=dict(size=14),  
+            xaxis_title_font=dict(size=16),  
+            yaxis_title_font=dict(size=16)   
+        )
 
-    fig.update_traces(marker=dict(line=dict(color='black', width=1))) 
-    
-    fig.show()
+        fig.update_traces(marker=dict(line=dict(color='black', width=1))) 
+        
+        fig.show()
+    else:
+        return
 
-def get_input_state_name(results):
+def get_input_state_name(posts_state_data):
     root = tk.Tk()
     root.title("Sentiments Posts by State")
 
@@ -172,7 +175,7 @@ def get_input_state_name(results):
     entry = tk.Entry(root, font=font_settings, width=30)
     entry.pack(pady=10, padx=10)
 
-    search_button = tk.Button(root, text="Search", font=font_settings, command=lambda: plot_posts_sentiments(results, entry))
+    search_button = tk.Button(root, text="Search", font=font_settings, command=lambda: plot_posts_sentiments(posts_state_data, entry))
     search_button.pack(pady=10, padx=10)
 
     root.mainloop()
@@ -182,7 +185,7 @@ def main():
     states = load_states()
 
     # Analyze the sentiments of the states
-    sentimentResult, results = analyze_state_sentiments(states["name"])
+    sentimentResult, posts_state_data = analyze_state_sentiments(states["name"])
 
     # Create and show the DataFrame
     df = create_dataframe(states, sentimentResult)
@@ -196,7 +199,7 @@ def main():
     fig1.show()
 
     # Show State Posts Sentiments
-    get_input_state_name(results)
+    get_input_state_name(posts_state_data)
 
 if __name__ == '__main__':
     main()
