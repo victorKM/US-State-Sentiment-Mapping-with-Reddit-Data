@@ -16,11 +16,7 @@ STATES_INFO = {
     "Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"
 }
 
-REDDIT = praw.Reddit(
-        client_id='pS9ynIbJmJCc3eDNudBu-Q',
-        client_secret='uaNYaSdYl5qOjkdxgq5Ysm7KLoT3VQ',
-        user_agent='mmm'
-    )
+REDDIT = praw.Reddit(client_id='CLIENT_ID',client_secret='CLIENT_SECRET',user_agent='mmm')
 
 ANALYZER = SentimentIntensityAnalyzer()
 
