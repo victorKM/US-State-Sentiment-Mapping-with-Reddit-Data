@@ -15,7 +15,7 @@ STATES_INFO = {
     "Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"
 }
 
-REDDIT = praw.Reddit(client_id='CLIENT_ID',client_secret='CLIENTE_SECRET',user_agent='mmm')
+REDDIT = praw.Reddit(client_id='CLIENT_ID',client_secret='CLIENT_SECRET',user_agent='mmm')
 
 ANALYZER = SentimentIntensityAnalyzer()
 
@@ -47,6 +47,7 @@ def analyse_post(post):
     
     return post_data, sum_sentiments
 
+# Collect and analyze the sentiment of state posts
 def analyze_state(state):
         sum_total_sentiments = 0
         sum_posts_comments = 0
@@ -125,9 +126,13 @@ def plot_sentiment_distribution(df):
 
     return fig
 
+# Function showing a bars graphics of the posts sentiments of a state
 def plot_posts_sentiments(posts_state_data, entry):
     
+    # Verify if the input is a US state name
     if entry.get() in posts_state_data:
+
+        # Get posts from the state
         posts = posts_state_data[entry.get()]
         
         data = {
@@ -137,6 +142,7 @@ def plot_posts_sentiments(posts_state_data, entry):
         
         df = pd.DataFrame(data)
 
+        # Order posts by sentiment number
         df_sorted = df.sort_values(by='sentiment', ascending=True)
         
         fig = px.bar(df_sorted,
@@ -159,10 +165,13 @@ def plot_posts_sentiments(posts_state_data, entry):
 
         fig.update_traces(marker=dict(line=dict(color='black', width=1))) 
         
+        # Show the graphic
         fig.show()
+
     else:
         return
 
+# Box to get input value from user to plot the posts sentiments of this state
 def get_input_state_name(posts_state_data):
     root = tk.Tk()
     root.title("Sentiments Posts by State")
