@@ -22,7 +22,7 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 - `plot_map(df)`: Creates and returns an interactive map of the United States with sentiment by state
 - `plot_sentiment_distribution(df)`: Creates and returns an bar graphic of sentiment distribution by state
 - `plot_posts_sentiments`: Creates and show graph bar graphics of the posts sentiments of a state
-- `get_input_stae_name(posts_state_data):` Get input value from user to plot the posts sentiments of this state
+- `get_input_state_name(posts_state_data):` Get input value from user to plot the posts sentiments of this state
 - `__main__()`: Main function that runs the entire sentiment analysis workflow
 
 # Example
