@@ -14,15 +14,16 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 
 # Code Structure
 
-- `initialize_reddit()`: Configures and returns the Reddit API client.
-- `initialize_analyzer()`: Initializes and returns the VADER sentiment analyzer.
-- `load_states()`: Loads the list of states and their codes
-- `process_post(post, analyzer)`: Processes a post and its comments, calculating the average sentiment.
+- `load_states()`: Loads the list of states and their codes.
+- `analyse_post(post)`: Processes a post and its comments, calculating the average sentiment.
+- `analyse_state(state)`: Collect and analyzes the sentiment of the state posts.
 - `analyze_state_sentiments(reddit, analyzer, states)`: Collects and analyzes the sentiment of posts for each state.
 - `create_dataframe(states, sentiment_result)`: Creates a DataFrame with states and their average sentiments.
 - `plot_map(df)`: Creates and returns an interactive map of the United States with sentiment by state.
-- `plot_sentiment_distribution(df)`: Creates and returns an graph bar of sentiment distribution by state.
-- `main()`: Main function that runs the entire sentiment analysis workflow.
+- `plot_sentiment_distribution(df)`: Creates and returns an bar graphic of sentiment distribution by state.
+- `plot_posts_sentiments`: Creates and show graph bar graphics of the posts sentiments of a state.
+- `get_input_stae_name(posts_state_data):` Get input value from user to plot the posts sentiments of this state.
+- `__main__()`: Main function that runs the entire sentiment analysis workflow.
 
 # Example
 
@@ -30,5 +31,13 @@ The goal of this project is to evaluate the sentiment of people towards each US 
 
 ![image2](https://github.com/user-attachments/assets/d83fab3a-a88e-4d1c-886e-63788fffb6d9)
 
-![image](https://github.com/user-attachments/assets/3616324b-6406-4ddb-a6f8-3a5252ba33b3)
+![image3](https://github.com/user-attachments/assets/3616324b-6406-4ddb-a6f8-3a5252ba33b3)
 
+![imagem4](https://github.com/user-attachments/assets/8270f4db-b46b-4f77-b65d-363e530795f2)
+
+![imagem5](https://github.com/user-attachments/assets/84638196-3a99-4720-bcfe-ea83277609af)
+
+# Techonlogies Used
+
+- Python
+- Libraries: praw, pandas, vaderSentiment, plotly, concurrent, tkinter, matplotlib
