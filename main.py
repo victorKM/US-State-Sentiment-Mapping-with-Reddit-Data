@@ -19,6 +19,27 @@ REDDIT = praw.Reddit(client_id='CLIENT_ID',client_secret='CLIENT_SECRET',user_ag
 
 ANALYZER = SentimentIntensityAnalyzer()
 
+def __main__():
+    # Load the list of states
+    states = load_states()
+
+    # Analyze the sentiments of the states
+    sentimentResult, posts_state_data = analyze_state_sentiments(states["name"])
+
+    # Create and show the DataFrame
+    df = create_dataframe(states, sentimentResult)
+
+    # Create and show a bars graph of sentiments by state
+    fig = plot_sentiment_distribution(df)
+    fig.show()
+
+    # Create and show the map of the United States
+    fig1 = plot_map(df)
+    fig1.show()
+
+    # Show State Posts Sentiments
+    get_input_state_name(posts_state_data)
+
 # Load the list of states
 def load_states():
     names = []
@@ -188,26 +209,5 @@ def get_input_state_name(posts_state_data):
 
     root.mainloop()
 
-def main():
-    # Load the list of states
-    states = load_states()
-
-    # Analyze the sentiments of the states
-    sentimentResult, posts_state_data = analyze_state_sentiments(states["name"])
-
-    # Create and show the DataFrame
-    df = create_dataframe(states, sentimentResult)
-
-    # Create and show a bars graph of sentiments by state
-    fig = plot_sentiment_distribution(df)
-    fig.show()
-
-    # Create and show the map of the United States
-    fig1 = plot_map(df)
-    fig1.show()
-
-    # Show State Posts Sentiments
-    get_input_state_name(posts_state_data)
-
 if __name__ == '__main__':
-    main()
+    __main__()
