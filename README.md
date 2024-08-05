@@ -1,6 +1,6 @@
 # Sentiment Analysis of Reddit Posts by US State
 
-This project performs sentiment analysis on Reddit posts related to US states and visualizes the results on an interactive map. We use the Reddit API to collect posts and comments, and the VADER library for sentiment analysis.
+This project performs sentiment analysis on Reddit posts related to US states and visualizes the results on an interactive map. Used the Reddit API to collect posts and comments, and the VADER library for sentiment analysis.
 
 # Objective
 
